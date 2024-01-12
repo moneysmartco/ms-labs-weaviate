@@ -48,4 +48,4 @@ service:
       protocol: TCP
       port: 80
       # Target port is going to be the same for every port
-  type: {{ .Values.envs.SERVICE_TYPE }}
+  type: NodePort
