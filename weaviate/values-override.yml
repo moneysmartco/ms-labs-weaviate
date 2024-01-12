@@ -12,6 +12,11 @@ ingress:
 appLabels:
   region: ""
 
+replicas: {{ .Values.envs.replicaCount }}
+
+storage:
+  size: {{ .Values.envs.storageSize }}
+
 modules:
   text2vec-openai:
     enabled: true
