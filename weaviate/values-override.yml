@@ -9,6 +9,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+image:
+  tag: {{ .Values.envs.imageTag }}
+
 appLabels:
   region: ""
 
