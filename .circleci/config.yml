@@ -80,7 +80,7 @@ jobs:
           release-name: ms-labs-weaviate
           namespace: labs-db
           values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
-          values: weaviate/values-override.yml
+          values: /tmp/workspace/staging-sg-ms-labs-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
 # workflows:
@@ -137,7 +137,7 @@ jobs:
           release-name: ms-labs-weaviate
           namespace: labs-db
           values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
-          values: weaviate/values-override.yml
+          values: /tmp/workspace/production-sg-ms-labs-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
 workflows:
