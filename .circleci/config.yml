@@ -75,8 +75,6 @@ jobs:
             sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
             sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
-            sed -i "s|replicaCount|$replicaCount|g" weaviate/values-override.yml
-            sed -i "s|storageSize|$storageSize|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
@@ -134,8 +132,6 @@ jobs:
             sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
             sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
-            sed -i "s|replicaCount|$replicaCount|g" weaviate/values-override.yml
-            sed -i "s|storageSize|$storageSize|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
