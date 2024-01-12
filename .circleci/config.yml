@@ -79,7 +79,7 @@ jobs:
           chart: weaviate
           release-name: ms-labs-weaviate
           namespace: labs-db
-          values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
+          values-to-override: appLabels.region=sg,image.tag=1.23.0,replicas=3,storage.size=50Gi
           values: /tmp/workspace/staging-sg-ms-labs-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
@@ -136,7 +136,7 @@ jobs:
           chart: weaviate
           release-name: ms-labs-weaviate
           namespace: labs-db
-          values-to-override: image.tag=1.23.0,replicas=3,storage.size=50Gi
+          values-to-override: appLabels.region=sg,image.tag=1.23.0,replicas=3,storage.size=50Gi
           values: /tmp/workspace/production-sg-ms-labs-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
