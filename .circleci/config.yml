@@ -64,17 +64,7 @@ jobs:
       - run:
           name: Update values.yml
           command: |
-            while IFS=': ' read -r key value; do
-            if [ "$key" ]; then
-                value=$(echo "$value" | tr -d '"')
-                export "$key=$value"
-            fi
-            done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/staging-sg-weaviate-env.yaml)
-            
-            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-override.yml
-            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
-            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
-            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
+            sed -i 's/"//g' /tmp/workspace/staging-sg-ms-labs-weaviate-env.yaml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
@@ -121,17 +111,7 @@ jobs:
       - run:
           name: Update values.yml
           command: |
-            while IFS=': ' read -r key value; do
-            if [ "$key" ]; then
-                value=$(echo "$value" | tr -d '"')
-                export "$key=$value"
-            fi
-            done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/production-sg-weaviate-env.yaml)
-            
-            sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-override.yml
-            sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
-            sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
-            sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
+            sed -i 's/"//g' /tmp/workspace/staging-sg-ms-labs-weaviate-env.yaml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
