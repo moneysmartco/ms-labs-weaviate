@@ -9,6 +9,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+appLabels:
+  region: ""
+
 modules:
   text2vec-openai:
     enabled: true
