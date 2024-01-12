@@ -1,15 +1,12 @@
 {{- if ((.Values.ingress).enabled) }}
-{{- $fullName := include ".Values.name.fullname" . -}}
 {{- $ingressPath := .Values.ingress.paths -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ .Values.service.name }}
   labels:
-    app.kubernetes.io/name: {{ template ".Values.name.name" . }}
-    helm.sh/chart: {{ template ".Values.name.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
     region: {{ .Values.appLabels.region }}
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -24,7 +21,7 @@ spec:
 {{- if ((.Values.defaultBackend).enabled) }}
   defaultBackend:
     service:
-      name: {{ $fullName }}
+      name: {{ .Values.service.name }}
       port:
         number: 80
 {{- end }}
@@ -48,7 +45,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ .Values.service.name }}
                 port: 
                   number: 80
         {{- end }}
