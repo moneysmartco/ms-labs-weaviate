@@ -45,8 +45,8 @@ jobs:
       - checkout
       - *prod_aws_creds
       - moneysmart-orb/get_env_var_from_vault:
-          secret_path: staging/sg/weaviate
-          repo_name: weaviate-helm
+          secret_path: staging/sg/ms-labs-weaviate
+          repo_name: ms-labs-weaviate
           output_format: helm
 
   deploy_to_sg_staging_eks:
@@ -75,12 +75,14 @@ jobs:
             sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
             sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
+            sed -i "s|replicaCount|$replicaCount|g" weaviate/values-override.yml
+            sed -i "s|storageSize|$storageSize|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
           namespace: labs-db
-          values-to-override: appLabels.region=sg,image.tag=1.23.0,replicas=3,storage.size=50Gi
-          values: /tmp/workspace/staging-sg-ms-labs-env.yaml,weaviate/values-override.yml
+          values-to-override: appLabels.region=sg,image.tag=1.23.0
+          values: /tmp/workspace/staging-sg-ms-labs-weaviate-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
 # workflows:
@@ -93,7 +95,7 @@ jobs:
     <<: *default-image
     steps:
       - moneysmart-orb/tag_validation:
-          repo_name: weaviate-helm
+          repo_name: ms-labs-weaviate
           branch_name: master
 
   get_env_var_from_vault_sg_prod_eks:
@@ -102,8 +104,8 @@ jobs:
       - checkout
       - *prod_aws_creds
       - moneysmart-orb/get_env_var_from_vault:
-          secret_path: production/sg/weaviate
-          repo_name: weaviate-helm
+          secret_path: production/sg/ms-labs-weaviate
+          repo_name: ms-labs-weaviate
           output_format: helm
 
   deploy_to_sg_prod_eks:
@@ -132,12 +134,14 @@ jobs:
             sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
             sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
             sed -i "s|SERVICE_TYPE|$SERVICE_TYPE|g" weaviate/values-override.yml
+            sed -i "s|replicaCount|$replicaCount|g" weaviate/values-override.yml
+            sed -i "s|storageSize|$storageSize|g" weaviate/values-override.yml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
           namespace: labs-db
-          values-to-override: appLabels.region=sg,image.tag=1.23.0,replicas=3,storage.size=50Gi
-          values: /tmp/workspace/production-sg-ms-labs-env.yaml,weaviate/values-override.yml
+          values-to-override: appLabels.region=sg,image.tag=1.23.0
+          values: /tmp/workspace/production-sg-ms-labs-weaviate-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
 workflows:
