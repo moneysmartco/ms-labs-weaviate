@@ -44,7 +44,7 @@ spec:
           - topologyKey: kubernetes.io/hostname
             labelSelector:
               matchLabels:
-                app.kubernetes.io/instance: {{ .Release.Name }}
+                app.kubernetes.io/name: weaviate
       {{- end }}
       topologySpreadConstraints:
         - maxSkew: 1
@@ -52,7 +52,7 @@ spec:
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
-              app.kubernetes.io/instance: {{ .Release.Name }}
+              app.kubernetes.io/name: weaviate
       securityContext:
 {{ toYaml .Values.securityContext | indent 8}}
       {{- if (index .Values "serviceAccountName") }}
