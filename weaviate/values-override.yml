@@ -17,6 +17,16 @@ modules:
     enabled: true
     apiKey: 'MODULES_API_KEY'
 
+authentication:
+  anonymous_access:
+    enabled: false
+  apikey:
+    enabled: true
+    allowed_keys:
+      - AUTHENTICATION_API_KEY
+    users:
+      - admin
+
 service:
   name: weaviate
   ports:
