@@ -34,7 +34,7 @@ query_defaults:
   limit: QUERY_LIMIT
   
 service:
-  name: weaviate
+  name: ms-labs-weaviate
   ports:
     - name: http
       protocol: TCP
