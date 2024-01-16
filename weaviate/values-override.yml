@@ -10,23 +10,23 @@ ingress:
   #      - chart-example.local
 
 image:
-  tag: {{ .Values.envs.imageTag }}
+  tag: IMAGE_TAG
 
 appLabels:
   region: ""
 
-replicas: {{ .Values.envs.replicaCount }}
+replicas: REPLICA_COUNT
 
 storage:
-  size: {{ .Values.envs.storageSize }}
+  size: STORAGE_SIZE
 
 modules:
   text2vec-openai:
     enabled: true
-    apiKey: '{{ .Values.envs.MODULES_API_KEY }}'
+    apiKey: 'MODULES_API_KEY'
   generative-openai:
     enabled: true
-    apiKey: '{{ .Values.envs.MODULES_API_KEY }}'
+    apiKey: 'MODULES_API_KEY'
 
 authentication:
   anonymous_access:
@@ -34,15 +34,15 @@ authentication:
   apikey:
     enabled: true
     allowed_keys:
-      - {{ .Values.envs.AUTHENTICATION_API_KEY }}
+      - AUTHENTICATION_API_KEY
     users:
       - admin
 
 query_defaults:
-  limit: {{ .Values.envs.QUERY_LIMIT }}
+  limit: QUERY_LIMIT
 
 service:
-  name: ms-labs-weaviate
+  name: weaviate
   ports:
     - name: http
       protocol: TCP
