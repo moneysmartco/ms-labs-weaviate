@@ -1,0 +1,53 @@
+{{- if ((.Values.ingress).enabled) }}
+{{- $ingressPath := .Values.ingress.paths -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.service.name }}
+  labels:
+    app.kubernetes.io/name: weaviate
+    app.kubernetes.io/managed-by: helm
+    region: {{ .Values.appLabels.region }}
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.envs.certificate_arn }}
+    alb.ingress.kubernetes.io/group.name: {{ .Values.envs.group_name }}
+    {{- if .Values.envs.group_order }}
+    alb.ingress.kubernetes.io/group.order: "{{ .Values.envs.group_order }}"
+    {{- end }}
+    alb.ingress.kubernetes.io/healthcheck-path: {{ .Values.envs.healthcheck_path }}
+spec:
+{{- if ((.Values.defaultBackend).enabled) }}
+  defaultBackend:
+    service:
+      name: {{ .Values.service.name }}
+      port:
+        number: 80
+{{- end }}
+{{- if .Values.ingress.tls }}
+  tls:
+  {{- range .Values.ingress.tls }}
+    {{- range .hosts }}
+    - hosts:
+        - {{ . }}
+      secretName: {{ . | replace "." "-" }}-tls
+    {{- end }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.ingress_hosts.ingress_host }}
+    - host: {{ . }}
+      http:
+        paths:
+        {{- range $ingressPath }}
+          - path: {{ . }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.service.name }}
+                port: 
+                  number: 80
+        {{- end }}
+  {{- end }}
+{{- end }}

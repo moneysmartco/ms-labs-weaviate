@@ -1,0 +1,51 @@
+ingress:
+  enabled: true
+  paths:
+    - /*
+  hosts:
+    - chart-example.local
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+image:
+  tag: {{ .Values.envs.imageTag }}
+
+appLabels:
+  region: ""
+
+replicas: {{ .Values.envs.replicaCount }}
+
+storage:
+  size: {{ .Values.envs.storageSize }}
+
+modules:
+  text2vec-openai:
+    enabled: true
+    apiKey: '{{ .Values.envs.MODULES_API_KEY }}'
+  generative-openai:
+    enabled: true
+    apiKey: '{{ .Values.envs.MODULES_API_KEY }}'
+
+authentication:
+  anonymous_access:
+    enabled: false
+  apikey:
+    enabled: true
+    allowed_keys:
+      - {{ .Values.envs.AUTHENTICATION_API_KEY }}
+    users:
+      - admin
+
+query_defaults:
+  limit: {{ .Values.envs.QUERY_LIMIT }}
+
+service:
+  name: ms-labs-weaviate
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      # Target port is going to be the same for every port
+  type: NodePort
