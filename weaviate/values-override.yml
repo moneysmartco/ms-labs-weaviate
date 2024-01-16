@@ -9,17 +9,6 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-image:
-  tag: IMAGE_TAG
-
-appLabels:
-  region: ""
-
-replicas: REPLICA_COUNT
-
-storage:
-  size: STORAGE_SIZE
-
 modules:
   text2vec-openai:
     enabled: true
@@ -27,25 +16,3 @@ modules:
   generative-openai:
     enabled: true
     apiKey: 'MODULES_API_KEY'
-
-authentication:
-  anonymous_access:
-    enabled: false
-  apikey:
-    enabled: true
-    allowed_keys:
-      - AUTHENTICATION_API_KEY
-    users:
-      - admin
-
-query_defaults:
-  limit: QUERY_LIMIT
-
-service:
-  name: weaviate
-  ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      # Target port is going to be the same for every port
-  type: NodePort
