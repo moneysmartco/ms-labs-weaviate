@@ -1,9 +1,10 @@
 {{- if ((.Values.ingress).enabled) }}
+{{- $fullName := .Values.service.name }}
 {{- $ingressPath := .Values.ingress.paths -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Values.service.name }}
+  name: {{ $fullName }}
   labels:
     app.kubernetes.io/name: weaviate
     app.kubernetes.io/managed-by: helm
@@ -21,7 +22,7 @@ spec:
 {{- if ((.Values.defaultBackend).enabled) }}
   defaultBackend:
     service:
-      name: {{ .Values.service.name }}
+      name: {{ $fullName }}
       port:
         number: 80
 {{- end }}
@@ -45,7 +46,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: {{ .Values.service.name }}
+                name: {{ $fullName }}
                 port: 
                   number: 80
         {{- end }}
