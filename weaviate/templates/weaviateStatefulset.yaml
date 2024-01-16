@@ -82,7 +82,7 @@ spec:
       {{- end }}
       containers:
       - name: weaviate
-        image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.image.tag }}'
+        image: '{{ .Values.image.registry }}/{{ .Values.image.repo }}:{{ .Values.envs.imageTag }}'
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- with .Values.command }}
         command: {{ toYaml . | nindent 10 }}
@@ -478,4 +478,4 @@ spec:
       storageClassName: {{ .Values.storage.storageClassName }}
       resources:
         requests:
-          storage: {{ .Values.storage.size }}
+          storage: {{ .Values.envs.storageSize }}
