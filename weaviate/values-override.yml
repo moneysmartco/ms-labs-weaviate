@@ -9,6 +9,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
+appLabels:
+  region: ""
+
 modules:
   text2vec-openai:
     enabled: true
@@ -27,6 +30,9 @@ authentication:
     users:
       - admin
 
+query_defaults:
+  limit: QUERY_LIMIT
+  
 service:
   name: weaviate
   ports:
