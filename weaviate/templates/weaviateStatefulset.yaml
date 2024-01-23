@@ -468,17 +468,11 @@ spec:
       {{- end }}
 
   volumeClaimTemplates:
-    - apiVersion: v1	
-      kind: PersistentVolumeClaim
-      metadata:
-        name: weaviate-data
-        labels:
-          app.kubernetes.io/name: weaviate
-          app.kubernetes.io/managed-by: helm
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        storageClassName: {{ .Values.storage.storageClassName }}
-        resources:
-          requests:
-            storage: {{ .Values.envs.storageSize }}
+  - metadata:
+      name: weaviate-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.storage.storageClassName }}
+      resources:
+        requests:
+          storage: {{ .Values.envs.storageSize }}
