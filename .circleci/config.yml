@@ -45,7 +45,7 @@ jobs:
       - checkout
       - *prod_aws_creds
       - moneysmart-orb/get_env_var_from_vault:
-          secret_path: staging/sg/ms-labs-weaviate
+          secret_path: staging/sg/ms-labs-weaviate-test
           repo_name: ms-labs-weaviate
           output_format: helm
 
@@ -69,18 +69,18 @@ jobs:
                 value=$(echo "$value" | tr -d '"')
                 export "$key=$value"
             fi
-            done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/staging-sg-ms-labs-weaviate-env.yaml)
+            done < <(grep -E '^\s+\w+\s*:' /tmp/workspace/staging-sg-ms-labs-weaviate-test-env.yaml)
             
             sed -i "s|QUERY_LIMIT|$QUERY_LIMIT|g" weaviate/values-override.yml
             sed -i "s|AUTHENTICATION_API_KEY|$AUTHENTICATION_API_KEY|g" weaviate/values-override.yml
             sed -i "s|'MODULES_API_KEY'|"$MODULES_API_KEY"|g" weaviate/values-override.yml
-            sed -i 's/"//g' /tmp/workspace/staging-sg-ms-labs-weaviate-env.yaml
+            sed -i 's/"//g' /tmp/workspace/staging-sg-ms-labs-weaviate-test-env.yaml
       - helm/upgrade-helm-chart:
           chart: weaviate
           release-name: ms-labs-weaviate
-          namespace: labs-db
+          namespace: labs-db-test
           values-to-override: appLabels.region=sg
-          values: /tmp/workspace/staging-sg-ms-labs-weaviate-env.yaml,weaviate/values-override.yml
+          values: /tmp/workspace/staging-sg-ms-labs-weaviate-test-env.yaml,weaviate/values-override.yml
           helm-version: v3.9.0
 
 # workflows:
@@ -151,7 +151,7 @@ workflows:
           context: common-eks-vars
           filters:
             branches:
-              only: master
+              only: update-volumeclaim
 
       - deploy_to_sg_staging_eks:
           context: common-eks-vars
@@ -159,7 +159,7 @@ workflows:
             - get_env_var_from_vault_sg_staging_eks
           filters:
             branches:
-              only: master
+              only: update-volumeclaim
 
 #---------------------------------------------
 # weaviate-helm Production Pipeline
