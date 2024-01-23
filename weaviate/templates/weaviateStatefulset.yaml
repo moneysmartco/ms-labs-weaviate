@@ -473,8 +473,8 @@ spec:
       metadata:
         name: weaviate-data
         labels:
-        app.kubernetes.io/name: weaviate
-        app.kubernetes.io/managed-by: helm
+          app.kubernetes.io/name: weaviate
+          app.kubernetes.io/managed-by: helm
       spec:
         accessModes:
           - ReadWriteOnce
